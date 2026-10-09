@@ -1,9 +1,15 @@
 "use client";
 
 import { useEffect, useId, useRef } from "react";
+import Icon from "@/components/Icon";
 
-export default function Modal({ open, onClose, title, children, footer }) {
+const SIZES = { md: "max-w-lg", lg: "max-w-2xl" };
+const ICON_TONES = { primary: "bg-primary text-white", danger: "bg-danger text-white" };
+
+// Optional `icon` + `tone` add the icon tile next to the title (Stitch modal header); `size="lg"` for forms.
+export default function Modal({ open, onClose, title, description, icon, tone = "primary", size = "md", children, footer }) {
   const titleId = useId();
+  const descriptionId = useId();
   const dialogRef = useRef(null);
 
   useEffect(() => {
@@ -29,24 +35,37 @@ export default function Modal({ open, onClose, title, children, footer }) {
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
+        aria-describedby={description ? descriptionId : undefined}
         tabIndex={-1}
         // Clicks inside the dialog must not reach the backdrop's onClose.
         onClick={(event) => event.stopPropagation()}
-        className="flex max-h-full w-full max-w-lg flex-col overflow-hidden rounded-xl bg-white shadow-modal focus:outline-none"
+        className={`flex max-h-full w-full flex-col overflow-hidden rounded-xl bg-white shadow-modal focus:outline-none ${SIZES[size]}`}
       >
-        <div className="flex items-center justify-between gap-4 px-6 pt-6">
-          <h2 id={titleId} className="text-xl font-semibold text-ink">
-            {title}
-          </h2>
+        <div className="flex items-start justify-between gap-4 px-6 pt-6">
+          <div className="flex items-start gap-3">
+            {icon && (
+              <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${ICON_TONES[tone]}`}>
+                <Icon name={icon} />
+              </span>
+            )}
+            <div>
+              <h2 id={titleId} className="text-xl font-semibold text-ink">
+                {title}
+              </h2>
+              {description && (
+                <p id={descriptionId} className="mt-1 text-sm text-muted">
+                  {description}
+                </p>
+              )}
+            </div>
+          </div>
           <button
             type="button"
             aria-label="Close"
             onClick={onClose}
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-muted transition-colors hover:bg-surface hover:text-ink"
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-muted transition-colors hover:bg-surface hover:text-ink"
           >
-            <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              <path d="M6 6l12 12M18 6L6 18" />
-            </svg>
+            <Icon name="close" />
           </button>
         </div>
         <div className="overflow-y-auto px-6 py-4 text-sm text-muted">{children}</div>

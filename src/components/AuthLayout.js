@@ -12,6 +12,8 @@ export default function AuthLayout({ badge, badgeAside, eyebrow, headline, text,
             src="/images/auth-panel.jpg"
             alt=""
             fill
+            // Largest element on desktop, so load it eagerly (Next's LCP advice).
+            loading="eager"
             // object-cover crops this wide photo to a tall panel, so it needs ~1320px of width to stay sharp.
             // Below lg the panel is hidden; "1px" makes the browser fetch only the tiniest variant there.
             sizes="(min-width: 1024px) 1320px, 1px"

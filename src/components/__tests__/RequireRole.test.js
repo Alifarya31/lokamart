@@ -22,14 +22,16 @@ const seller = { user: { uid: "s1" }, role: "seller", loading: false };
 beforeEach(() => jest.clearAllMocks());
 
 describe("RequireRole", () => {
-  it("shows nothing and does not redirect while Firebase is loading", () => {
+  it("shows a loading skeleton and does not redirect while Firebase is loading", () => {
     renderAs({ user: null, role: null, loading: true });
+    expect(screen.getByRole("status", { name: "Loading" })).toBeInTheDocument();
     expect(screen.queryByText("Protected content")).not.toBeInTheDocument();
     expect(mockReplace).not.toHaveBeenCalled();
   });
 
   it("does not redirect a signed-in user whose role is still loading", () => {
     renderAs({ user: { uid: "c1" }, role: null, loading: false });
+    expect(screen.getByRole("status", { name: "Loading" })).toBeInTheDocument();
     expect(screen.queryByText("Protected content")).not.toBeInTheDocument();
     expect(mockReplace).not.toHaveBeenCalled();
   });
@@ -38,6 +40,7 @@ describe("RequireRole", () => {
     renderAs({ user: null, role: null, loading: false });
     expect(mockReplace).toHaveBeenCalledWith("/login");
     expect(screen.queryByText("Protected content")).not.toBeInTheDocument();
+    expect(screen.getByRole("status", { name: "Loading" })).toBeInTheDocument();
   });
 
   it("redirects a seller on a customer page to the seller dashboard", () => {
@@ -55,6 +58,7 @@ describe("RequireRole", () => {
   it("shows the page to a user with the right role", () => {
     renderAs(customer, "customer");
     expect(screen.getByText("Protected content")).toBeInTheDocument();
+    expect(screen.queryByRole("status", { name: "Loading" })).not.toBeInTheDocument();
     expect(mockReplace).not.toHaveBeenCalled();
   });
 });

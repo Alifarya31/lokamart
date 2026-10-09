@@ -1,4 +1,4 @@
-import { validateEmail, validateLogin, validatePassword, validateRegister } from "@/lib/validation";
+import { validateEmail, validateLogin, validatePassword, validateProduct, validateRegister } from "@/lib/validation";
 
 const validForm = {
   role: "customer",
@@ -81,5 +81,46 @@ describe("validateLogin", () => {
 
   it("AC: requires a password", () => {
     expect(validateLogin({ ...validLogin, password: "" }).password).toBe("Password is required");
+  });
+});
+
+describe("validateProduct (section c: Add new product)", () => {
+  const validProduct = {
+    name: "Matte Stoneware Dripper",
+    price: "185000",
+    stock: "12",
+    category: "Tableware",
+    description: "Hand-thrown dripper.",
+  };
+
+  it("returns no errors for a valid product", () => {
+    expect(validateProduct(validProduct)).toEqual({});
+  });
+
+  it("AC: requires a product name of more than 5 characters", () => {
+    expect(validateProduct({ ...validProduct, name: "Lamp" }).name).toMatch(/more than 5 characters/);
+    expect(validateProduct({ ...validProduct, name: "Lamps" }).name).toMatch(/more than 5 characters/);
+    expect(validateProduct({ ...validProduct, name: "   Lamps   " }).name).toMatch(/more than 5 characters/);
+    expect(validateProduct({ ...validProduct, name: "Lamp 1" }).name).toBeUndefined();
+  });
+
+  it.each(["", "0", "-5", "abc"])("AC: requires stock greater than 0 (%p fails)", (stock) => {
+    expect(validateProduct({ ...validProduct, stock }).stock).toMatch(/greater than 0/);
+  });
+
+  it("requires whole units of stock", () => {
+    expect(validateProduct({ ...validProduct, stock: "2.5" }).stock).toMatch(/whole number/);
+  });
+
+  it.each(["", "0", "-1000", "abc"])("AC: requires price greater than 0 (%p fails)", (price) => {
+    expect(validateProduct({ ...validProduct, price }).price).toBe("Price must be greater than 0");
+  });
+
+  it("AC: requires a category", () => {
+    expect(validateProduct({ ...validProduct, category: "" }).category).toBe("Select a category");
+  });
+
+  it("AC: requires a description", () => {
+    expect(validateProduct({ ...validProduct, description: "   " }).description).toBe("Enter a product description");
   });
 });

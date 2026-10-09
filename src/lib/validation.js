@@ -25,3 +25,15 @@ export const validateLogin = ({ email, password }) => {
   const errors = { email: validateEmail(email), password: validatePassword(password) };
   return Object.fromEntries(Object.entries(errors).filter(([, message]) => message));
 };
+
+// Section c "Add new product". Price and stock arrive as input strings; empty or non-numeric fails.
+export const validateProduct = ({ name, price, stock, category, description }) => {
+  const errors = {
+    name: name.trim().length > 5 ? "" : "Product name must be more than 5 characters",
+    price: Number(price) > 0 ? "" : "Price must be greater than 0",
+    stock: Number.isInteger(Number(stock)) && Number(stock) > 0 ? "" : "Stock must be a whole number greater than 0",
+    category: category ? "" : "Select a category",
+    description: description.trim() ? "" : "Enter a product description",
+  };
+  return Object.fromEntries(Object.entries(errors).filter(([, message]) => message));
+};

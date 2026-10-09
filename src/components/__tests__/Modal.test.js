@@ -47,3 +47,24 @@ describe("Modal", () => {
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 });
+
+describe("Modal header options", () => {
+  it("shows a description that describes the dialog, and an icon tile", () => {
+    const { container } = render(
+      <Modal open onClose={() => {}} title="Delete 2 products?" description="This cannot be undone." icon="delete_forever" tone="danger">
+        Body
+      </Modal>
+    );
+    expect(screen.getByRole("dialog", { name: "Delete 2 products?" })).toHaveAccessibleDescription("This cannot be undone.");
+    expect(container.querySelector('[data-icon="delete_forever"]').parentElement).toHaveClass("bg-danger");
+  });
+
+  it("uses the wide size for forms", () => {
+    render(
+      <Modal open onClose={() => {}} title="Add new product" size="lg">
+        Body
+      </Modal>
+    );
+    expect(screen.getByRole("dialog")).toHaveClass("max-w-2xl");
+  });
+});

@@ -1,5 +1,9 @@
 // PLACEHOLDER for testing access control. Members 2 and 3 replace this page with the seller dashboard (section c).
 // Access control comes from (seller)/layout.js, so keep this file inside the (seller) folder.
+// Required in every page of this route group: the page only renders after Firebase Auth confirms
+// the role in the browser (see ProtectedShell), so Next cannot validate it for instant navigation.
+export const instant = false;
+
 export default function SellerDashboardPage() {
   return (
     <main className="mx-auto w-full max-w-content flex-1 px-4 py-10 md:px-6">

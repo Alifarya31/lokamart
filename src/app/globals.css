@@ -25,6 +25,9 @@
   --color-line: #e5e7eb;
   --color-danger: #ef4444;
   --color-danger-soft: #fef2f2;
+  /* Low-stock badges and stat (amber, from the Stitch seller dashboard). Not for errors: use danger. */
+  --color-warning: #b45309;
+  --color-warning-soft: #fffbeb;
 
   /* 12px is the standard radius for cards, buttons and inputs: use `rounded-xl`. */
   --radius-xl: 0.75rem;
