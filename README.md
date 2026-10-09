@@ -132,7 +132,7 @@ npm test
 | Name                          | GitHub                                       |
 | ----------------------------- | -------------------------------------------- |
 | **Alif Arya Ramadhan**        | [@Alifarya31](https://github.com/Alifarya31) |
-| **Muhammad Evran Khadafi**    |                                              |
+| **Muhammad Evran Khadafi**    | [@Impeeew](https://github.com/Impeeew)       |
 | **Nisa' Ulya Afinatus Salam** |                                              |
 
 ---
