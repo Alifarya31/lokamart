@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+/*
+ * LokaMart design tokens (Tailwind v4: the theme lives here, not in tailwind.config.js).
+ * Source: Stitch project 13065862634074196668 design system + CLAUDE.md "Design".
+ *
+ * The generated Stitch screens use Material-style names (bg-primary, text-on-surface, ...).
+ * When porting a screen, translate them to these tokens:
+ *   primary / primary-container      -> primary
+ *   on-surface / on-background       -> ink
+ *   on-surface-variant / outline     -> muted
+ *   surface-container-lowest         -> white
+ *   surface-container-low/container  -> surface
+ *   surface-container-highest border -> line
+ *   error / tertiary (red)           -> danger  (errors and destructive actions only)
+ */
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --color-primary: #0f766e;
+  --color-primary-hover: #115e59;
+  --color-ink: #1a1a1a;
+  --color-muted: #6b7280;
+  --color-surface: #f7f7f8;
+  --color-line: #e5e7eb;
+  --color-danger: #ef4444;
+  --color-danger-soft: #fef2f2;
+
+  /* 12px is the standard radius for cards, buttons and inputs: use `rounded-xl`. */
+  --radius-xl: 0.75rem;
+
+  --container-content: 1200px;
+
+  --shadow-card: 0 4px 20px -2px rgb(0 0 0 / 0.05);
+  --shadow-card-hover: 0 12px 28px -4px rgb(0 0 0 / 0.08);
+  --shadow-modal: 0 20px 40px -8px rgb(0 0 0 / 0.12);
+}
+
+body {
+  background: var(--color-white);
+  color: var(--color-ink);
+}
